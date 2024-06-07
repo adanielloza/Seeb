@@ -41,12 +41,12 @@ def page_bonificacion():
 
     # Aplicar bonificaciones adicionales por múltiples tareas completadas antes de tiempo
     for user_id, details in user_task.items():
-        if details['done_early'] >= 7:
+        if details['done_early'] == 7:
             additional_bonus_7 = details['total_dolar'] * 0.05  # 5% additional bonus on total dollars
             details['total_bonificacion'] += additional_bonus_7
             details['total_dolar'] += additional_bonus_7  # Adjusting total dollars with the additional bonus
 
-        if details['done_early'] >= 21:
+        if details['done_early'] == 21:
             additional_bonus_21 = details['total_dolar'] * 0.10  # 10% additional bonus on total dollars
             details['total_bonificacion'] += additional_bonus_21
             details['total_dolar'] += additional_bonus_21  # Adjusting total dollars with the additional bonus
