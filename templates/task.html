@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Task List</h2>
+    <a href="/tasks/new" class="btn btn-primary mb-3">Add New Task</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Task ID</th>
+                <th scope="col">Job ID</th>
+                <th scope="col">Assigned to User</th>
+                <th scope="col">Description</th>
+                <th scope="col">Difficulty</th>
+                <th scope="col">Estimated Time</th>
+                <th scope="col">Status</th>
+                <th scope="col">DoneIn</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td>{{ task.job_id }}</td>
+                <td>{{ task.user_id }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.difficulty }}</td>
+                <td>{{ task.estimatetime }}</td>
+                <td>{{ task.status_id }}</td>
+                <td> {{task.donetime}} </td>
+                <td>
+                    <a href="/tasks/{{ task.id }}/edit" class="btn btn-secondary">Edit</a>
+                    <form action="/tasks/{{ task.id }}/delete" method="POST" style="display: inline-block;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

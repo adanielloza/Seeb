@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Task</h2>
+    <form action="/tasks/{{ task.id }}/edit" method="POST">
+        <div class="mb-3">
+            <label for="job_id" class="form-label">Job ID</label>
+            <input type="text" class="form-control" id="job_id" name="job_id" value="{{ task.job_id }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" id="description" name="description" value="{{ task.description }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="user_id" class="form-label">Assigned to User</label>
+            <select class="form-select" id="user_id" name="user_id">
+            {% for user in users %}
+                <option value="{{ user.id }}" {{ 'selected' if task.user_id == user.id else '' }}>{{ user.first_name }}  {{  user.last_name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="difficulty" class="form-label">Difficulty</label>
+            <select class="form-select" id="difficulty" name="difficulty">
+                <option value="Easy" {{ 'selected' if task.difficulty == 'Easy' else '' }}>Easy</option>
+                <option value="Medium" {{ 'selected' if task.difficulty == 'Medium' else '' }}>Medium</option>
+                <option value="Hard" {{ 'selected' if task.difficulty == 'Hard' else '' }}>Hard</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status">
+                {% for statu in status  %}
+                    <option value="{{ statu.id }}" {{ 'selected' if task.status_id == statu.id else '' }}>{{ statu.status_description }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="estimatetime" class="form-label">Estimated Time</label>
+            <input type="number" class="form-control" id="estimatetime" name="estimatetime" value="{{ task.estimatetime }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="estimatetime" class="form-label">Time to complete</label>
+            <input type="number" class="form-control" id="donetime" name="donetime" value="{{ task.donetime }}" >
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}

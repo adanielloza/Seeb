@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Bonificaciones por Tareas</h2>
+    <div class="row">
+        {% for user_id, details in user_task.items() %}
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    {{ details.user }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Tareas Completadas</h5>
+                    <p>Tareas completadas antes de tiempo: {{ details.done_early }}</p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Tarea</th>
+                                <th>Bonificación</th>
+                                <th>Dólares</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in details.tasks %}
+                            <tr>
+                                <td>{{ task.task }}</td>
+                                <td>{{ task.bonificacion }}%</td>
+                                <td>${{ task.dolar | round(2) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <p>Total Bonificaciones: {{ details.total_bonificacion }}%</p>
+                    <p>Total Dólares: ${{ details.total_dolar | round(2) }}</p>
+                    {% if details.done_early >= 7 %}
+                    <div class="alert alert-success" role="alert">
+                        Bonus adicional: 5% extra por completar 7 o más tareas antes de tiempo!
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

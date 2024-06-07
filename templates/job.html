@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Jobs List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.name }}</td>
+                <td>{{ job.description }}</td>
+                <td>{{ job.initdate }}</td>
+                <td>{{ job.enddate }}</td>
+                <td>
+                    <a href="/jobs/{{ job.id }}/edit" class="btn btn-primary">Edit</a>
+                    <form action="/jobs/{{ job.id }}/delete" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/jobs/new" class="btn btn-success">Add New Job</a>
+</div>
+{% endblock %}
