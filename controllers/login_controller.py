@@ -8,7 +8,7 @@ from flask_login import LoginManager
 # Initialize Blueprint
 login_blueprint = Blueprint('login', __name__)
 
-@login_blueprint.route('/login', methods=['GET', 'POST'])
+@login_blueprint.route('/', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         # return redirect(url_for('main.dashboard'))
@@ -20,6 +20,9 @@ def login():
         user = User.query.filter_by(username=username).first()
         
         if user and password == user.password:  # check_password_hash(user.password, password):
+            if user.role == 'ROLE_USER':
+                flash('You do not have permission to access this page')
+                return redirect(url_for('login.login'))
             login_user(user)
             # return redirect(url_for('main.dashboard'))  # Adjust to your main page's route
             # return redirect('Location: /users')

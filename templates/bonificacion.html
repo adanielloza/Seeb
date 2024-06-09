@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">Tareas Completadas</h5>
-                    <p>Tareas completadas antes de tiempo: {{ details.done_early }}</p>
+                    <p>Tareas completadas antes de tiempo: {{ details.cycle_done_early }}</p>
                     <table class="table">
                         <thead>
                             <tr>
@@ -26,22 +26,37 @@
                             <tr>
                                 <td>{{ task.task }}</td>
                                 <td>{{ task.bonificacion }}%</td>
-                                <td>${{ task.dolar | round(2) }}</td>
+                                <td>
+                                    {% if task.dolar is not none %}
+                                        ${{ task.dolar | round(2) }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                     <p>Total Bonificaciones: {{ details.total_bonificacion }}%</p>
-                    <p>Total Dólares: ${{ details.total_dolar | round(2) }}</p>
-                    {% if details.done_early >= 7 %}
+                    <p>Total Dólares: 
+                        {% if details.total_dolar is not none %}
+                            ${{ details.total_dolar | round(2) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+                    {% if details.show_bonus_7 %}
                     <div class="alert alert-success" role="alert">
                         Bonus adicional: 5% extra por completar 7 o más tareas antes de tiempo!
+                    </div>
+                    {% endif %}
+                    {% if details.show_bonus_21 %}
+                    <div class="alert alert-success" role="alert">
+                        Bonus adicional: 10% extra por completar 21 o más tareas antes de tiempo!
                     </div>
                     {% endif %}
                 </div>
             </div>
         </div>
         {% endfor %}
-    </div>
-</div>
 {% endblock %}
