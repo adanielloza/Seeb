@@ -48,8 +48,14 @@ This version substantially enhances the security framework of the system by inte
 
 ![alt text](image-1.png)
 
+To login:
+
+user: admin
+password: admin
+
 Admin
 Admin Dashboard
 The Admin has the capability to perform CRUD operations on Users, Jobs, Tasks, and Bonifications. Each section (Users, Jobs, Tasks, Bonifications) will have its own interface for creating, reading, updating, and deleting entries.
 
 ![alt text](image-2.png)
+
