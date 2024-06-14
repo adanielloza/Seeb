@@ -9,12 +9,14 @@ bonificacion_blueprint = Blueprint('bonificaciones', __name__)
 @bonificacion_blueprint.route('/bonificaciones', methods=['GET'])
 @login_required
 def page_bonificacion():
-    tasks = Task.query.all()
-    user_task = {}
+    tasks = Task.query.all() # Recuperar todas las tareas de la base de datos
+    user_task = {} # Diccionario para almacenar información de tareas por usuario
 
+   # Procesar cada tarea
     for task in tasks:
-        if task.status_id == 3:  # Estado 3 significa completado
-            user = User.query.get(task.user_id)
+        if task.status_id == 3:   # Verificar si la tarea está completada (status_id == 3)
+            user = User.query.get(task.user_id) # Recuperar el usuario que completó la tarea
+            # Inicializar la entrada del usuario en el diccionario si no está presente
             if user.id not in user_task:
                 user_task[user.id] = {
                     'user': user.first_name + ' ' + user.last_name,
@@ -27,16 +29,19 @@ def page_bonificacion():
                     'show_bonus_21': False  # Para mostrar el popup de bonificación de 21
                 }
             
+            # Determinar el porcentaje de bonificación y la cantidad en dólares según la dificultad de la tarea
             bonus_percentage = 10 if task.difficulty == 'Easy' else 15 if task.difficulty == 'Medium' else 20
             bonus_dollar = 5 if task.difficulty == 'Easy' else 10 if task.difficulty == 'Medium' else 15
             current_bonus_dollar = bonus_dollar + (bonus_dollar * bonus_percentage / 100)
             
+            # Verificar si la tarea se completó antes de tiempo
             if task.estimatetime is not None and task.donetime is not None and task.estimatetime >= task.donetime:
-                user_task[user.id]['done_early'] += 1
-                user_task[user.id]['cycle_done_early'] += 1
-                user_task[user.id]['total_bonificacion'] += bonus_percentage
-                user_task[user.id]['total_dolar'] += current_bonus_dollar
+                user_task[user.id]['done_early'] += 1  # Incrementar el contador de tareas completadas antes de tiempo
+                user_task[user.id]['cycle_done_early'] += 1 # Incrementar el contador de tareas completadas antes de tiempo en el ciclo actual
+                user_task[user.id]['total_bonificacion'] += bonus_percentage # Añadir el porcentaje de bonificación al total
+                user_task[user.id]['total_dolar'] += current_bonus_dollar # Añadir la cantidad de dólares de bonificación al total
 
+                # Añadir la tarea a la lista de tareas del usuario
                 user_task[user.id]['tasks'].append({
                     'task': task.description,
                     'bonificacion': bonus_percentage,
@@ -62,6 +67,9 @@ def page_bonificacion():
                     user_task[user.id]['show_bonus_7'] = False
                     user_task[user.id]['show_bonus_21'] = False
             else:
+                 # Añadir la tarea a la lista de tareas del usuario sin bonificaciones
+                 #Aquí estamos añadiendo un diccionario que contiene la descripción de la tarea, el porcentaje de bonificación y 
+                 #la cantidad en dólares de bonificación a la lista de tareas del usuario en el diccionario user_task.
                 user_task[user.id]['tasks'].append({
                     'task': task.description,
                     'bonificacion': "",
