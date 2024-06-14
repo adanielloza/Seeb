@@ -8,6 +8,7 @@ from flask import render_template
 task_blueprint = Blueprint('tasks', __name__)
 
 @task_blueprint.route('/tasks', methods=['GET'])
+@login_required
 def list_tasks():
     tasks = Task.query.all()
     return render_template('task.html', tasks=tasks)

@@ -13,6 +13,7 @@ def get_users():
     return render_template('users.html', users=users)
 
 @user_blueprint.route('/users/new', methods=['GET', 'POST'])
+@login_required
 def create_user():
     if request.method == 'GET':
         return render_template('add_user.html')  # Muestra el formulario al usuario

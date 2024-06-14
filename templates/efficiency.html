@@ -1,0 +1,43 @@
+<!-- templates/efficiency.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Eficiencia por Job</h2>
+
+    <form method="post" class="mb-4">
+        <div class="form-group">
+            <label for="start_date">Fecha de Inicio</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+        </div>
+        <div class="form-group">
+            <label for="end_date">Fecha de Fin</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+    </form>
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if job_efficiency %}
+    <h3>Mejor Job en Tiempo</h3>
+    <p>Job ID: {{ best_job.job.id }}</p>
+    <p>Nombre: {{ best_job.job.name }}</p>
+    <p>Fecha Inicio: {{ best_job.job.initdate }}</p>
+    <p>Fecha Fin: {{ best_job.job.enddate }}</p>
+    <p>Eficiencia: {{ best_job.efficiency | round(2) }}%</p>
+    <p>Mejor Trabajador: 
+        {% if best_job.best_worker %}
+            {{ best_job.best_worker.first_name }} {{ best_job.best_worker.last_name }}
+        {% else %}
+            N/A
+        {% endif %}
+    </p>
+    <p>Tareas en Tiempo: {{ best_job.best_worker_tasks }}</p>
+    {% else %}
+    <p>No se encontraron trabajos completados en las fechas especificadas.</p>
+    {% endif %}
+</div>
+{% endblock %}

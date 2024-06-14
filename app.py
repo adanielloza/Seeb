@@ -48,6 +48,14 @@ app.register_blueprint(bonificacion_blueprint)
 from controllers import status_blueprint
 app.register_blueprint(status_blueprint)
 
+# Import the reports blueprint
+from controllers import reports_blueprint
+app.register_blueprint(reports_blueprint)
+
+# Import the efficiency blueprint
+from controllers import efficiency_blueprint
+app.register_blueprint(efficiency_blueprint)
+
 
 
 

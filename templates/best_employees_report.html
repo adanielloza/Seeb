@@ -1,0 +1,49 @@
+<!-- templates/best_employees_report.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Reporte de Mejores Empleados</h2>
+    <form method="get" action="/report">
+        <div class="form-group">
+            <label for="job_id">Seleccionar Job:</label>
+            <select name="job_id" id="job_id" class="form-control">
+                <option value="">--Seleccionar Job--</option>
+                {% for job in jobs %}
+                    <option value="{{ job.id }}" {% if job.id == selected_job_id %}selected{% endif %}>{{ job.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+
+    {% if report %}
+        <h3 class="mt-5">Mejores Empleados para el Job: {{ report[0].job_name }}</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Tareas Fácil</th>
+                    <th>Tareas Medio</th>
+                    <th>Tareas Difícil</th>
+                    <th>Total Tareas</th>
+                    <th>Puntaje Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in report[0].employees %}
+                <tr {% if loop.first %}class="table-success"{% endif %}>
+                    <td>{{ employee.user }}</td>
+                    <td>{{ employee.easy }}</td>
+                    <td>{{ employee.medium }}</td>
+                    <td>{{ employee.hard }}</td>
+                    <td>{{ employee.total }}</td>
+                    <td>{{ employee.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
