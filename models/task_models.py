@@ -21,5 +21,5 @@ class Task(db.Model, UserMixin):
             "difficulty": self.difficulty,
             "estimatetime": self.estimatetime,
             "status_id": self.status_id,
-            "donetime": self.donetime
+            "donetime": self.donetime   
         }
